@@ -29,6 +29,33 @@ app.get("/impresora", function (req, res) {
   );
 });
 
+app.get("/:id", (req, res) => {
+  const id = req.params.id;
+  Impresora.findOne({ _id: id }, (err, impresora) => {
+    if (!impresora) {
+      return res.status(500).json({
+        ok: false,
+        error: {
+          message: "No se encontro impresora.",
+        },
+      });
+    }
+
+    if (err)
+      return res.status(400).json({
+        ok: false,
+        err,
+      });
+
+    // data.contador = undefined;
+
+    return res.json({
+      ok: true,
+      impresora,
+    });
+  });
+});
+
 app.post("/impresora", function (req, res) {
   let body = req.body;
 
