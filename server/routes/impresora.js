@@ -9,18 +9,24 @@ app.get("/", function (req, res) {
 });
 
 app.get("/impresora", function (req, res) {
-  Impresora.find({}).exec((err, impresora) => {
-    if (err) {
-      return res.status(400).json({
-        ok: false,
-        err,
+  Impresora.find({}, "marca modelo serie color ip precio").exec(
+    (err, impresora) => {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err,
+        });
+      }
+
+      Impresora.count({}, (err, conteo) => {
+        res.json({
+          ok: true,
+          impresora,
+          conteo,
+        });
       });
     }
-    res.json({
-      ok: true,
-      impresora,
-    });
-  });
+  );
 });
 
 app.post("/impresora", function (req, res) {
