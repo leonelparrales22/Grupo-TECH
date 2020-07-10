@@ -29,11 +29,11 @@ app.get("/impresora", function (req, res) {
   );
 });
 
-app.get("/:id", (req, res) => {
-  const id = req.params.id;
-  Impresora.findOne({ _id: id }, (err, impresora) => {
+app.get("/impresora/:id", (req, res) => {
+  let id = req.params.id;
+  Impresora.findOne({ _id: id }, "marca modelo serie color ip precio", (err, impresora) => {
     if (!impresora) {
-      return res.status(500).json({
+      return res.status(400).json({
         ok: false,
         error: {
           message: "No se encontro impresora.",
@@ -46,8 +46,6 @@ app.get("/:id", (req, res) => {
         ok: false,
         err,
       });
-
-    // data.contador = undefined;
 
     return res.json({
       ok: true,
