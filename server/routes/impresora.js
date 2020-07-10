@@ -79,8 +79,20 @@ app.put("/impresora/:id", function (req, res) {
   );
 });
 
-app.delete("/impresora", function (req, res) {
-  res.json("delete Usuario");
+app.delete("/impresora/:id", function (req, res) {
+  let id = req.params.id;
+  Impresora.findByIdAndRemove(id, (err, impresora) => {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        err,
+      });
+    }
+    res.json({
+      ok: true,
+      impresora,
+    });
+  });
 });
 
 module.exports = app;
