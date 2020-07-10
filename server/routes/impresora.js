@@ -5,7 +5,7 @@ const Impresora = require("../models/impresora");
 const app = express();
 
 app.get("/", function (req, res) {
-  res.json("Hello World");
+  res.json("Try with https://grupo-tech.herokuapp.com/impresora/");
 });
 
 app.get("/impresora", function (req, res) {
