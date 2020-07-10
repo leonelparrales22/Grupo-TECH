@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(require("./routes/impresora"));
 
 mongoose.connect(
-  "mongodb://localhost:27017/grupo_tech",
+  process.env.URLDB,
   { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true },
   (err, res) => {
     if (err) throw err;
