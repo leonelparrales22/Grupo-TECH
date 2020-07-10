@@ -60,20 +60,29 @@ app.put("/impresora/:id", function (req, res) {
   let id = req.params.id;
   let body = _.pick(req.body, ["modelo", "color", "ip", "precio"]);
 
-  Impresora.findByIdAndUpdate(
-    id,
+  Impresora.findOneAndUpdate(
+    { _id: id },
     body,
     { new: true, runValidators: true },
-    (err, impresoraDB) => {
+    (err, impresora) => {
+      if (!impresora) {
+        return res.status(400).json({
+          ok: false,
+          err: {
+            message: "Impresora no encontrada",
+          },
+        });
+      }
       if (err) {
         return res.status(400).json({
           ok: false,
           err,
         });
       }
+
       res.json({
         ok: true,
-        impresora: impresoraDB,
+        impresora,
       });
     }
   );
@@ -86,6 +95,14 @@ app.delete("/impresora/:id", function (req, res) {
       return res.status(400).json({
         ok: false,
         err,
+      });
+    }
+    if (!impresora) {
+      return res.status(400).json({
+        ok: false,
+        err: {
+          message: "Impresora no encontrada",
+        },
       });
     }
     res.json({
